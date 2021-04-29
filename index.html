@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div class="container">
+        <div class="display"></div>
+        <div class="body">
+            <div class="button-container ">
+                <div class="button dark" id="theme" onclick="buttonclick(this.id)">Dark</div>
+                <div class="button clear" id="clear" onclick="buttonclick(this.id)">clear</div>
+                <div class="button backspace" id="backspace" onclick="buttonclick(this.id)"><-</div>
+                <div class="button divide"id="/" onclick="buttonclick(this.id)">/</div>
+            </div>
+            <div class="button-container">
+                <div class="button" id="7" onclick="buttonclick(this.id)">7</div>
+                <div class="button" id="8" onclick="buttonclick(this.id)">8</div>
+                <div class="button" id="9" onclick="buttonclick(this.id)">9</div>
+                <div class="button multiply" id="*" onclick="buttonclick(this.id)">x</div>
+            </div>
+            <div class="button-container">
+                <div class="button" id="4" onclick="buttonclick(this.id)">4</div>
+                <div class="button" id="5" onclick="buttonclick(this.id)">5</div>
+                <div class="button" id="6" onclick="buttonclick(this.id)">6</div>
+                <div class="button minus"id="-" onclick="buttonclick(this.id)">-</div>
+            </div>
+            <div class="button-container">
+                <div class="button" id="1" onclick="buttonclick(this.id)">1</div>
+                <div class="button" id="2" onclick="buttonclick(this.id)">2</div>
+                <div class="button" id="3" onclick="buttonclick(this.id)">3</div>
+                <div class="button plus"id="+" onclick="buttonclick(this.id)">+</div>
+            </div>
+            <div class="button-container">
+                <div class="button" id="plusMinus" onclick="buttonclick(this.id)">+/-</div>
+                <div class="button" id="0" onclick="buttonclick(this.id)">0</div>
+                <div class="button" id="." onclick="buttonclick(this.id)">.</div>
+                <div class="button equal" id="equal" onclick="buttonclick(this.id)">=</div>
+            </div>
+        </div>
+    </div>  
+    <script>
+        let lightTheme= true;
+        let notAdded= true;
+        const buttonclick = (id) =>{
+            const buttonValue = id;
+            if (buttonValue == 'theme')
+            {
+                updateTheme();
+                return;
+            }
+            if (buttonValue == 'clear')
+            {
+                clearDisplay();
+                return;
+            }
+            if (buttonValue == 'backspace')
+            {
+                backSpace();
+                return;
+            }
+            if (buttonValue == 'equal')
+            {
+                evaluate();
+                return;
+               
+            }
+            if (buttonValue == 'plusMinus')
+            {
+                plusMinus();
+                return;
+               
+            }
+            if (buttonValue == 'decimal')
+            {
+                addDecimal();
+                return;
+               
+            }
+            updateDisplay(buttonValue);
+        }
+        const updateDisplay = (value) =>{
+            const display = document.getElementsByClassName('display')[0];
+            display.innerText += value;
+        }
+        const addDecimal = (value) =>{
+            if(notAdded)
+            {
+                const display = document.getElementsByClassName('display')[0];
+                display.innerText += '.';
+                notAdded=false;
+            }
+            else{
+                const display = document.getElementsByClassName('display')[0];
+                const values =display.innerText.split('');
+                values.pop();
+                display.innerText = values.join('') ;
+                notAdded=true;
+            }
+            
+        }
+        const plusMinus = () =>{
+            const display = document.getElementsByClassName('display')[0];
+            const values =display.innerText.split('');
+            let newValue = null;
+            if(values[values.length -1]!=')')
+            {
+                let lastValue = values[values.length-1];
+                newValue = `(-${lastValue})`;
+                values.pop();
+                display.innerText = values.join('') + newValue;
+            }
+            else{
+                let lastValue = values[values.length-2];
+                newValue = lastValue;
+                values.splice((values.length -4), 4);
+                values.push(lastValue)
+                display.innerText = values.join('') ;
+            }
+            
+        }
+        const clearDisplay = () =>
+        {
+            const display =document.getElementsByClassName('display')[0];
+            display.innerHTML="";
+        }
+        const backSpace =() =>
+        {
+            const display =document.getElementsByClassName('display')[0];
+            const values =display.innerText.split('');
+
+            if (values.length>0)
+            {
+            values.pop();
+            display.innerHTML = values.join('');
+            }
+        }
+        const evaluate =() =>{
+            const display =document.getElementsByClassName('display')[0];
+            const expression = display.innerText;
+            const result = eval(expression);
+            display.innerText = result;
+        }
+        const updateTheme=()=>{
+            const container =document.getElementsByClassName('container')[0];
+            if(lightTheme){
+                container.classList.add("dark-container");
+                lightTheme=false;
+            }
+            else{
+                container.classList.remove('dark-container');
+                lightTheme=true;
+            }
+        }
+    </script>  
+</body>
+</html>
