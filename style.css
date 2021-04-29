@@ -118,6 +118,14 @@ body {
 }
 @media screen and (max-width: 1200px) {
     .container {
-      width: 60%;
+      width: 80%;
+    }
+    .button{
+        min-width: 60px;
+    min-height: 60px;
+    }
+    .display{
+        min-width: 290px;
+        min-height: 80px;
     }
   }
